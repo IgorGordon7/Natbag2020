@@ -127,30 +127,94 @@ public class Main {
 				int answer = scan.nextInt();
 				switch (answer) {
 				case 1:
-					System.out.println("Time from: yyyy-MM-dd_HH:mm");
-					String timeFrom = scan.next();
-					DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
-					LocalDateTime scheduledTime3 = LocalDateTime.parse(timeFrom, formatter3);
+					System.out.println("1. Search by Flight Number\n"+
+							"2. Search by Flight Company\n"
+							+ "3. Search by Destination\n"
+							+ "4. Search by Date");
+					int answer1 = scan.nextInt();
+					switch (answer1) {
 					
-					System.out.println("Time to: yyyy-MM-dd_HH:mm");
-					String timeTo = scan.next();
-					DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
-					LocalDateTime scheduledTime4 = LocalDateTime.parse(timeTo, formatter4);
-					System.out.println(natbag.showDeparturesFlightScheduled(scheduledTime3, scheduledTime4));
+					case 1:
+						System.out.println("Type the Flight number");
+						String flightNum = scan.next();
+						String numFlight="numFlight";
+						System.out.println(natbag.showDeparturesFlightScheduled(flightNum, numFlight));
+						break;
+						
+					case 2:
+						System.out.println("Type the Flight Company");
+						String flightCompany = scan.next();
+						String companyFlight="companyFlight";
+						System.out.println(natbag.showDeparturesFlightScheduled(flightCompany, companyFlight));
+						break;
+					
+					case 3:
+						System.out.println("Type the Destination");
+						String dest = scan.next();
+						String destination1="Destination";
+						System.out.println(natbag.showDeparturesFlightScheduled(dest, destination1));
+						break;
+						
+					case 4:
+						System.out.println("Time from: yyyy-MM-dd_HH:mm");
+						String timeFrom = scan.next();
+						DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
+						LocalDateTime scheduledTime3 = LocalDateTime.parse(timeFrom, formatter3);
+						
+						System.out.println("Time to: yyyy-MM-dd_HH:mm");
+						String timeTo = scan.next();
+						DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
+						LocalDateTime scheduledTime4 = LocalDateTime.parse(timeTo, formatter4);
+						System.out.println(natbag.showDeparturesFlightScheduled(scheduledTime3, scheduledTime4));
+						
+						break;
+					}
+					
 					
 					break;
 					
 				case 2:
-					System.out.println("Time from: yyyy-MM-dd_HH:mm");
-					String timeFrom1 = scan.next();
-					DateTimeFormatter formatter5 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
-					LocalDateTime scheduledTime5 = LocalDateTime.parse(timeFrom1, formatter5);
+					System.out.println("1. Search by Flight Number\n"+
+							"2. Search by Flight Company\n"
+							+ "3. Search by Landing\n"
+							+ "4. Search by Date");
+					int answer2 = scan.nextInt();
+					switch (answer2) {
 					
-					System.out.println("Time to: yyyy-MM-dd_HH:mm");
-					String timeTo1 = scan.next();
-					DateTimeFormatter formatter6 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
-					LocalDateTime scheduledTime6 = LocalDateTime.parse(timeTo1, formatter6);
-					System.out.println(natbag.showLandingFlightScheduled(scheduledTime5, scheduledTime6));
+					case 1:
+						System.out.println("Type the Flight number");
+						String flightNum = scan.next();
+						String numFlight="numFlight";
+						System.out.println(natbag.showLandingFlightScheduled(flightNum, numFlight));
+						break;
+						
+					case 2:
+						System.out.println("Type the Flight Company");
+						String flightCompany = scan.next();
+						String companyFlight="companyFlight";
+						System.out.println(natbag.showLandingFlightScheduled(flightCompany, companyFlight));
+						break;
+						
+					case 3:
+						System.out.println("Type the Destination");
+						String dest = scan.next();
+						String landing="Landed";
+						System.out.println(natbag.showLandingFlightScheduled(dest, landing));
+						break;
+						
+					case 4:
+						System.out.println("Time from: yyyy-MM-dd_HH:mm");
+						String timeFrom1 = scan.next();
+						DateTimeFormatter formatter5 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
+						LocalDateTime scheduledTime5 = LocalDateTime.parse(timeFrom1, formatter5);
+						
+						System.out.println("Time to: yyyy-MM-dd_HH:mm");
+						String timeTo1 = scan.next();
+						DateTimeFormatter formatter6 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
+						LocalDateTime scheduledTime6 = LocalDateTime.parse(timeTo1, formatter6);
+						System.out.println(natbag.showLandingFlightScheduled(scheduledTime5, scheduledTime6));
+						break;
+					}
 					break;
 
 				default:
