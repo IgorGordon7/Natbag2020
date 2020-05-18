@@ -1,6 +1,7 @@
 import java.io.File;
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -97,28 +98,70 @@ public String showDeparturesFlight() {
 	return sb.toString();
 }
 
-public String showDeparturesFlightScheduled(LocalDateTime from, LocalDateTime to) {
+public <T> String showDeparturesFlightScheduled(T g1, T g2) {
 	StringBuffer sb= new StringBuffer();
 	sb.append("View all Scheduled Departures information:\n");
 	Arrays.sort(departures);
 	
-	for (int j = 0; j < departuresCounter; j++) {
-		if(departures[j].scheduledTime.isAfter(from)&&departures[j].scheduledTime.isBefore(to)) {
-			sb.append(departures[j].toString()+"\n");
-		}
+	if(g1 instanceof java.time.LocalDateTime && g2 instanceof java.time.LocalDateTime) {
+		for (int j = 0; j < departuresCounter; j++) {
+			if(departures[j].scheduledTime.isAfter((ChronoLocalDateTime<?>) g1)&&departures[j].scheduledTime.isBefore((ChronoLocalDateTime<?>) g2)) {
+				sb.append(departures[j].toString()+"\n");
+				}
+			}
+	}else if(g2.equals("Destination")) {
+		for (int j = 0; j < departuresCounter; j++) {
+			if(departures[j].getDestination().equals(g1)) {
+				sb.append(departures[j].toString()+"\n");
+				}
+			}
+	}else if(g2.equals("companyFlight")) {
+		for (int j = 0; j < departuresCounter; j++) {
+			if(departures[j].companyFlight.equals(g1)) {
+				sb.append(departures[j].toString()+"\n");
+				}
+			}
+	}else if(g2.equals("numFlight")) {
+		for (int j = 0; j < departuresCounter; j++) {
+			if(departures[j].numFlight.equals(g1)) {
+				sb.append(departures[j].toString()+"\n");
+				}
+			}
 	}
+	
+	
 	return sb.toString();
 }
 
-public String showLandingFlightScheduled(LocalDateTime from, LocalDateTime to) {
+public <T> String showLandingFlightScheduled(T g1, T g2) {
 	StringBuffer sb= new StringBuffer();
 	sb.append("View all Scheduled Landing information:\n");
 	Arrays.sort(landing);
 	
-	for (int j = 0; j < landingCounter; j++) {
-		if(landing[j].scheduledTime.isAfter(from)&&landing[j].scheduledTime.isBefore(to)) {
-			sb.append(landing[j].toString()+"\n");
-		}
+	if(g1 instanceof java.time.LocalDateTime && g2 instanceof java.time.LocalDateTime) {
+		for (int j = 0; j < landingCounter; j++) {
+			if(landing[j].scheduledTime.isAfter((ChronoLocalDateTime<?>) g1)&&landing[j].scheduledTime.isBefore((ChronoLocalDateTime<?>) g2)) {
+				sb.append(landing[j].toString()+"\n");
+				}
+			}
+	}else if(g2.equals("Landed")) {
+		for (int j = 0; j < landingCounter; j++) {
+			if(landing[j].getLandedFrom().equals(g1)) {
+				sb.append(landing[j].toString()+"\n");
+				}
+			}
+	}else if(g2.equals("companyFlight")) {
+		for (int j = 0; j < landingCounter; j++) {
+			if(landing[j].companyFlight.equals(g1)) {
+				sb.append(landing[j].toString()+"\n");
+				}
+			}
+	}else if(g2.equals("numFlight")) {
+		for (int j = 0; j < landingCounter; j++) {
+			if(landing[j].numFlight.equals(g1)) {
+				sb.append(landing[j].toString()+"\n");
+				}
+			}
 	}
 	return sb.toString();
 }
