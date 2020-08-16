@@ -3,13 +3,13 @@ import java.time.LocalDateTime;
 
 
 public class DeparturesFlight extends Flight implements Comparable<DeparturesFlight> {
-	private String destination;
+	private String destinationCity;
+	private String destinationCountry;
 
-
-	public DeparturesFlight(String companyFlight, String numFlight, LocalDateTime scheduledTime, int terminal, String destination) {
-		super(companyFlight, numFlight, scheduledTime, terminal);
-		this.destination = destination;
-	
+	public DeparturesFlight(String companyFlight, String numFlight, LocalDateTime scheduledTime, int terminal, String destinationCity,String destinationCountry,String day) {
+		super(companyFlight, numFlight, scheduledTime, terminal,day);
+		this.destinationCity = destinationCity;
+		this.destinationCountry= destinationCountry;
 	}
 
 	public int compareTo(DeparturesFlight o) {
@@ -17,7 +17,13 @@ public class DeparturesFlight extends Flight implements Comparable<DeparturesFli
 	}
 	
 	public String toString() {
-		return super.toString() + "Destination=" + destination + "\n";
+		return super.toString() + "Destination Country:" + destinationCountry + "\nDestination City: "+destinationCity;
 
 	}
+	public String  getDestinationCity() {
+		return destinationCity;
+	}
+	public String  getDestinationCountry() {
+		return destinationCountry ;
+}
 }
