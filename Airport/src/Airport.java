@@ -13,7 +13,7 @@ private String airportName;
 private LandingFlight landing[];
 private int landingCounter;
 private DeparturesFlight departures[];
-
+private String country;
 private int departuresCounter;
 	
 public Airport(String name) {
