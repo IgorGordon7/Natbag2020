@@ -13,9 +13,7 @@ private String airportName;
 private LandingFlight landing[];
 private int landingCounter;
 private DeparturesFlight departures[];
-private String country;
 private int departuresCounter;
-	
 public Airport(String name) {
 this.airportName=name;
 this.landing=new LandingFlight[1];
@@ -43,13 +41,17 @@ public Airport(Scanner myObj,String name) {
 		String terminal =myObj.nextLine();
 		terminal=terminal.substring(terminal.indexOf("=")+1);
 		int terminal1=Integer.parseInt(terminal);
-		String destinationTemp=myObj.nextLine();
-		String destination=destinationTemp.substring(destinationTemp.indexOf("=")+1);
+		String destinationCity=myObj.nextLine();
+		destinationCity=destinationCity.substring(destinationCity.indexOf("=")+1);
+		 String destinationCountry=myObj.nextLine();
+		 destinationCountry= destinationCountry.substring(destinationCountry.indexOf("=")+1);
+		 String day=myObj.nextLine();
+			day=day.substring(day.indexOf("=")+1);
 		
-		if(destinationTemp.substring(0, destinationTemp.indexOf("=")).equals("Destination")) {
-			addDepartureFlight(new DeparturesFlight(companyFlight,numFlight, scheduledTime1, terminal1,destination));
+		if(destinationCity.substring(0, destinationCity.indexOf("=")).equals("Destination")) {
+			addDepartureFlight(new DeparturesFlight(companyFlight,numFlight, scheduledTime1, terminal1,destinationCity,destinationCountry,day));
 		}else {
-			addLandingFlight(new LandingFlight(companyFlight,numFlight, scheduledTime1, terminal1,destination));
+			addLandingFlight(new LandingFlight(companyFlight,numFlight, scheduledTime1, terminal1,destinationCity,destinationCountry,day));
 		}
 	
 	
@@ -109,9 +111,9 @@ public <T> String showDeparturesFlightScheduled(T g1, T g2) {
 				sb.append(departures[j].toString()+"\n");
 				}
 			}
-	}else if(g2.equals("Destination")) {
+	}else if(g2.equals("Destination City")) {
 		for (int j = 0; j < departuresCounter; j++) {
-			if(departures[j].getDestination().equals(g1)) {
+			if(departures[j].getDestinationCity().equals(g1)) {
 				sb.append(departures[j].toString()+"\n");
 				}
 			}
@@ -124,6 +126,18 @@ public <T> String showDeparturesFlightScheduled(T g1, T g2) {
 	}else if(g2.equals("numFlight")) {
 		for (int j = 0; j < departuresCounter; j++) {
 			if(departures[j].numFlight.equals(g1)) {
+				sb.append(departures[j].toString()+"\n");
+				}
+			}
+	}else if(g2.equals("Destination Country")) {
+		for (int j = 0; j < departuresCounter; j++) {
+			if(departures[j].getDestinationCountry().equals(g1)) {
+				sb.append(departures[j].toString()+"\n");
+				}
+			}
+	}else if(g2.equals("Day")) {
+		for (int j = 0; j < departuresCounter; j++) {
+			if(departures[j].getDestinationCountry().equals(g1)) {
 				sb.append(departures[j].toString()+"\n");
 				}
 			}
@@ -146,7 +160,7 @@ public <T> String showLandingFlightScheduled(T g1, T g2) {
 			}
 	}else if(g2.equals("Landed")) {
 		for (int j = 0; j < landingCounter; j++) {
-			if(landing[j].getLandedFrom().equals(g1)) {
+			if(landing[j].getLandedFromCity().equals(g1)) {
 				sb.append(landing[j].toString()+"\n");
 				}
 			}
@@ -160,6 +174,24 @@ public <T> String showLandingFlightScheduled(T g1, T g2) {
 		for (int j = 0; j < landingCounter; j++) {
 			if(landing[j].numFlight.equals(g1)) {
 				sb.append(landing[j].toString()+"\n");
+				}
+			}
+	}else if(g2.equals("Landing Country")) {
+		for (int j = 0; j < departuresCounter; j++) {
+			if(departures[j].getDestinationCountry().equals(g1)) {
+				sb.append(departures[j].toString()+"\n");
+				}
+			}
+	}else if(g2.equals("Landing City")) {
+		for (int j = 0; j < departuresCounter; j++) {
+			if(departures[j].getDestinationCountry().equals(g1)) {
+				sb.append(departures[j].toString()+"\n");
+				}
+			}
+	}else if(g2.equals("Day")) {
+		for (int j = 0; j < departuresCounter; j++) {
+			if(departures[j].getDestinationCountry().equals(g1)) {
+				sb.append(departures[j].toString()+"\n");
 				}
 			}
 	}
