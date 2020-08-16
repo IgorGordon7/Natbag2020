@@ -23,8 +23,7 @@ public class Main {
 				+ "3.View all takeoff details(sorted by date and time).\n"
 				+ "4.View all landing information(sorted by date and time).\n"
 				+ "5.Saves details of all flights typed into a file.\n"
-				+ "6.Loading flight information from an existing file.\n" 
-				+ "7.Scheduled Time Seacrh.\n"
+				+ "6.Loading flight information from an existing file.\n" + "7.Scheduled Time Seacrh.\n"
 				+ "8.Exit program.\n" + "Enter your choice");
 
 		boolean again = true;
@@ -45,9 +44,13 @@ public class Main {
 				System.out.println("Enter terminal number");
 				int terminalNum1 = scan.nextInt();
 				System.out.println("Enter source city:");
-				String landedFrom = scan.next();
+				String landedFromCity = scan.next();
+				System.out.println("Enter source country:");
+				String landedFromCountry = scan.next();
+				System.out.println("Enter day flight:");
+				String day = scan.next();
 				natbag.addLandingFlight(
-						new LandingFlight(company1, numFlight1, scheduledTime1, terminalNum1, landedFrom));
+						new LandingFlight(company1, numFlight1, scheduledTime1, terminalNum1, landedFromCity,landedFromCountry,day));
 				break;
 
 			case 2:
@@ -62,9 +65,13 @@ public class Main {
 				System.out.println("Enter terminal number");
 				int terminalNum2 = scan.nextInt();
 				System.out.println("Enter destination city:");
-				String destination = scan.next();
+				String destinationCity = scan.next();
+				System.out.println("Enter destination country:");
+				String destinationCountry = scan.next();
+				System.out.println("Enter day flight:");
+				 day = scan.next();
 				natbag.addDepartureFlight(
-						new DeparturesFlight(company2, numFlight2, scheduledTime2, terminalNum2, destination));
+						new DeparturesFlight(company2, numFlight2, scheduledTime2, terminalNum2, destinationCity,destinationCountry,day));
 				break;
 
 			case 3:
@@ -74,145 +81,168 @@ public class Main {
 			case 4:
 				System.out.println(natbag.showLandingFlight());
 				break;
-			
+
 			case 5:
-				 try {
-				      File f = new File("airport.txt");
-				      if (f.createNewFile()) {
-				        System.out.println("File created: " + f.getName());
-				      } else {
-				        System.out.println("File already exists.");
-				      }
-				    } catch (IOException e) {
-				      System.out.println("An error occurred.");
-				      e.printStackTrace();
-				    }
-			
-				 try {
-					 DeparturesFlight []temp1=natbag.getDepartures();
-					 LandingFlight []temp2=natbag.getLanding();
-				      FileWriter myWriter = new FileWriter("airport.txt",true);
-				      for(int i=0;i<natbag.getDeparturesCounter();i++) {
-				    	  myWriter.write(temp1[i].toString());
-				      }
-				      for(int i=0;i<natbag.getLandingCounter();i++) {
-				    	  myWriter.write(temp2[i].toString());
-				      }
-				      myWriter.close();
-				      System.out.println("Successfully wrote to the file.");
-				    } catch (IOException e) {
-				      System.out.println("An error occurred.");
-				      e.printStackTrace();
-				    }
-				 
+				try {
+					File f = new File("airport.txt");
+					if (f.createNewFile()) {
+						System.out.println("File created: " + f.getName());
+					} else {
+						System.out.println("File already exists.");
+					}
+				} catch (IOException e) {
+					System.out.println("An error occurred.");
+					e.printStackTrace();
+				}
+
+				try {
+					DeparturesFlight[] temp1 = natbag.getDepartures();
+					LandingFlight[] temp2 = natbag.getLanding();
+					FileWriter myWriter = new FileWriter("airport.txt", true);
+					for (int i = 0; i < natbag.getDeparturesCounter(); i++) {
+						myWriter.write(temp1[i].toString());
+					}
+					for (int i = 0; i < natbag.getLandingCounter(); i++) {
+						myWriter.write(temp2[i].toString());
+					}
+					myWriter.close();
+					System.out.println("Successfully wrote to the file.");
+				} catch (IOException e) {
+					System.out.println("An error occurred.");
+					e.printStackTrace();
+				}
+
 				break;
-			
+
 			case 6:
-				
+
 				try {
 					File myObj = new File("airport.txt");
 					Scanner myReader = new Scanner(myObj);
-					natbag = new Airport(myReader,"natbag");
+					natbag = new Airport(myReader, "natbag");
 					myReader.close();
-			    } catch (FileNotFoundException e) {
-			      System.out.println("An error occurred.");
-			      e.printStackTrace();
-			    }
-			
+				} catch (FileNotFoundException e) {
+					System.out.println("An error occurred.");
+					e.printStackTrace();
+				}
+
 				break;
-				
+
 			case 7:
-				
-				System.out.println("1. Search for Departures\n"+"2. Search for Arrivals\n");
+
+				System.out.println("1. Search for Departures\n" + "2. Search for Arrivals\n");
 				int answer = scan.nextInt();
 				switch (answer) {
 				case 1:
-					System.out.println("1. Search by Flight Number\n"+
-							"2. Search by Flight Company\n"
-							+ "3. Search by Destination\n"
-							+ "4. Search by Date");
+					System.out.println("1. Search by Flight Number\n" + "2. Search by Flight Company\n"
+							+ "3. Search by Date" + "4. Search by Destination City\n"
+							+ "5. Search by Destination Country" + "6. Search by Day" + "7. Search by Airport name");
 					int answer1 = scan.nextInt();
 					switch (answer1) {
-					
+
 					case 1:
 						System.out.println("Type the Flight number");
 						String flightNum = scan.next();
-						String numFlight="numFlight";
-						System.out.println(natbag.showDeparturesFlightScheduled(flightNum, numFlight));
+
+						System.out.println(natbag.showDeparturesFlightScheduled(flightNum, "numFlight"));
 						break;
-						
+
 					case 2:
 						System.out.println("Type the Flight Company");
 						String flightCompany = scan.next();
-						String companyFlight="companyFlight";
-						System.out.println(natbag.showDeparturesFlightScheduled(flightCompany, companyFlight));
+
+						System.out.println(natbag.showDeparturesFlightScheduled(flightCompany, "companyFlight"));
 						break;
-					
+
 					case 3:
-						System.out.println("Type the Destination");
-						String dest = scan.next();
-						String destination1="Destination";
-						System.out.println(natbag.showDeparturesFlightScheduled(dest, destination1));
-						break;
-						
-					case 4:
 						System.out.println("Time from: yyyy-MM-dd_HH:mm");
 						String timeFrom = scan.next();
 						DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
 						LocalDateTime scheduledTime3 = LocalDateTime.parse(timeFrom, formatter3);
-						
+
 						System.out.println("Time to: yyyy-MM-dd_HH:mm");
 						String timeTo = scan.next();
 						DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
 						LocalDateTime scheduledTime4 = LocalDateTime.parse(timeTo, formatter4);
 						System.out.println(natbag.showDeparturesFlightScheduled(scheduledTime3, scheduledTime4));
-						
+						break;
+					case 4:
+						System.out.println("Type the Destination City");
+						String dest = scan.next();
+						System.out.println(natbag.showDeparturesFlightScheduled(dest, "Destination City"));
+						break;
+					case 5:
+						System.out.println("Type the Destination Country");
+						dest = scan.next();
+						System.out.println(natbag.showDeparturesFlightScheduled(dest, "Destination Country"));
+						break;
+					case 6:
+						System.out.println("Type the Day");
+						 day = scan.next();
+						System.out.println(natbag.showDeparturesFlightScheduled(day, "Day"));
+						break;
+					case 7:
+						System.out.println("Type the Airport");
+						String airport = scan.next();
+						System.out.println(natbag.showDeparturesFlightScheduled(airport, "Airport name"));
 						break;
 					}
-					
-					
+
 					break;
-					
+
 				case 2:
-					System.out.println("1. Search by Flight Number\n"+
-							"2. Search by Flight Company\n"
-							+ "3. Search by Landing\n"
-							+ "4. Search by Date");
+					System.out.println("1. Search by Flight Number\n" + "2. Search by Flight Company\n"
+							+ "3. Search by Date\n" + "4. Search by Landing City\n" + "5. Search by Landing Country"
+							+ "6. Search by Day" + "7. Search by Airport name");
 					int answer2 = scan.nextInt();
 					switch (answer2) {
-					
+
 					case 1:
 						System.out.println("Type the Flight number");
 						String flightNum = scan.next();
-						String numFlight="numFlight";
+						String numFlight = "numFlight";
 						System.out.println(natbag.showLandingFlightScheduled(flightNum, numFlight));
 						break;
-						
+
 					case 2:
 						System.out.println("Type the Flight Company");
 						String flightCompany = scan.next();
-						String companyFlight="companyFlight";
+						String companyFlight = "companyFlight";
 						System.out.println(natbag.showLandingFlightScheduled(flightCompany, companyFlight));
 						break;
-						
+
 					case 3:
-						System.out.println("Type the Destination");
-						String dest = scan.next();
-						String landing="Landed";
-						System.out.println(natbag.showLandingFlightScheduled(dest, landing));
-						break;
-						
-					case 4:
 						System.out.println("Time from: yyyy-MM-dd_HH:mm");
 						String timeFrom1 = scan.next();
 						DateTimeFormatter formatter5 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
 						LocalDateTime scheduledTime5 = LocalDateTime.parse(timeFrom1, formatter5);
-						
+
 						System.out.println("Time to: yyyy-MM-dd_HH:mm");
 						String timeTo1 = scan.next();
 						DateTimeFormatter formatter6 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
 						LocalDateTime scheduledTime6 = LocalDateTime.parse(timeTo1, formatter6);
 						System.out.println(natbag.showLandingFlightScheduled(scheduledTime5, scheduledTime6));
+						break;
+					case 4:
+						System.out.println("Type the Landing City");
+						String arrivalCity = scan.next();
+
+						System.out.println(natbag.showLandingFlightScheduled(arrivalCity, "Landing City"));
+						break;
+					case 5:
+						System.out.println("Type the Landing Country");
+						String arrivalCountry= scan.next();
+						System.out.println(natbag.showDeparturesFlightScheduled(arrivalCountry, "Landing Country"));
+						break;
+					case 6:
+						System.out.println("Type the Day");
+						 day = scan.next();
+						System.out.println(natbag.showDeparturesFlightScheduled(day, "Day"));
+						break;
+					case 7:
+						System.out.println("Type the Airport");
+						String airport = scan.next();
+						System.out.println(natbag.showDeparturesFlightScheduled(airport, "Airport name"));
 						break;
 					}
 					break;
@@ -221,7 +251,7 @@ public class Main {
 					break;
 				}
 				break;
-				
+
 			case 8:
 				System.out.println("Bye");
 				again = false;
