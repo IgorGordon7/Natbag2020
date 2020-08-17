@@ -7,14 +7,16 @@ public abstract class Flight {
 	protected String numFlight;
 	protected LocalDateTime scheduledTime;
 	protected int terminal;
+	protected String day;
 
 	
 	
-	public Flight(String companyFlight, String numFlight, LocalDateTime scheduledTime, int terminal) {
+	public Flight(String companyFlight, String numFlight, LocalDateTime scheduledTime, int terminal,String day) {
 		this.companyFlight = companyFlight;
 		this.numFlight = numFlight;
 		this.scheduledTime=scheduledTime;
 		this.terminal = terminal;
+		this.day=day;
 	}
 
 	@Override
