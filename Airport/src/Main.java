@@ -9,11 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Main {
+	private static Airport natbag = new Airport("Natbag");
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 
-		Airport natbag = new Airport("Natbag");
+		//Airport natbag = new Airport("Natbag");
 //		LocalDateTime time = LocalDateTime.of(2020, 05, 20, 10, 10, 00);
 //		natbag.addDepartureFlight(new DeparturesFlight("El-Al", "LY315", time, 3, "London"));
 //		time = LocalDateTime.of(2020, 05, 20, 00, 45, 00);
@@ -49,8 +50,10 @@ public class Main {
 				String landedFromCountry = scan.next();
 				System.out.println("Enter day flight:");
 				String day = scan.next();
+				System.out.println("Enter Airport:");
+				String LandingAirport = scan.next();
 				natbag.addLandingFlight(
-						new LandingFlight(company1, numFlight1, scheduledTime1, terminalNum1, landedFromCity,landedFromCountry,day));
+						new LandingFlight(company1, numFlight1, scheduledTime1, terminalNum1, landedFromCity,landedFromCountry,day,LandingAirport));
 				break;
 
 			case 2:
@@ -70,8 +73,10 @@ public class Main {
 				String destinationCountry = scan.next();
 				System.out.println("Enter day flight:");
 				 day = scan.next();
+				 System.out.println("Enter Airport:");
+					String DepartureAirport = scan.next();
 				natbag.addDepartureFlight(
-						new DeparturesFlight(company2, numFlight2, scheduledTime2, terminalNum2, destinationCity,destinationCountry,day));
+						new DeparturesFlight(company2, numFlight2, scheduledTime2, terminalNum2, destinationCity,destinationCountry,day,DepartureAirport));
 				break;
 
 			case 3:
@@ -260,5 +265,37 @@ public class Main {
 			}
 		}
 	}
-
+	public void getDataFromWeb(String[] args) {
+		//StringBuffer sb = new StringBuffer();
+		if(args.length>0) {
+			try {
+				File myObj = new File("airport.txt");
+				Scanner myReader = new Scanner(myObj);
+				natbag = new Airport(myReader, "natbag");
+				myReader.close();
+			} catch (FileNotFoundException e) {
+				System.out.println("An error occurred.");
+				e.printStackTrace();
+			}
+		}
+		
+		for (int i = 0; i < args.length; i++) {
+			System.out.println(args[i]);
+			if(args[0].equals("html")) {
+				System.out.println("<br>");
+			}
+//			if(args[1].equals("departures")) {
+//				sb.append(natbag.showDeparturesDataToWeb(args[i]));
+//				
+//			}
+//			if(args[1].equals("arrivals")) {
+//				System.out.println(natbag.showLandingDataToWeb(args[i]));
+//	
+//			}
+		}
+//		System.out.println(sb);
+		System.out.println(natbag.showDeparturesDataToWeb(args));
+	
+		
+	}
 }
