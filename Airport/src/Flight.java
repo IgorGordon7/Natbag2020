@@ -11,12 +11,12 @@ public abstract class Flight {
 
 	
 	
-	public Flight(String companyFlight, String numFlight, LocalDateTime scheduledTime, int terminal,String day) {
+	public Flight(String companyFlight, String numFlight, LocalDateTime scheduledTime, int terminal) {
 		this.companyFlight = companyFlight;
 		this.numFlight = numFlight;
 		this.scheduledTime=scheduledTime;
 		this.terminal = terminal;
-		this.day=day;
+		
 	}
 
 	@Override
