@@ -201,18 +201,35 @@ public class Airport {
 		return sb.toString();
 	}
 
-	public String showDeparturesDataToWeb(String arg) {
+	public String showDeparturesDataToWeb(String[] arg) {
+		String [] array= {html, departures,elal,france,paris,CDG
+				4
+				6
+				2020
+				31
+				7
+				,2020
+				,true
+				,false
+				,false
+				,true
+				,false
+				,false
+				,false};
 		StringBuffer sb = new StringBuffer();
-		int counter;
-//		sb.append("View all Landing information:\n");
-//		Arrays.sort(landing);
-//
-		for (int j = 0; j < departuresCounter; j++) {
-			if(departures[j].toString().toLowerCase().indexOf(arg.toLowerCase())!=-1) {
-				sb.append(departures[j].toString() + "\n");
+		int day=0,month=0,year=0;
+//		for (int j = 0; j < departuresCounter; j++) {
+//			day=departures[j].scheduledTime.getDayOfMonth();
+//			month=departures[j].scheduledTime.getMonthValue();
+//			year=departures[j].scheduledTime.getYear();
+//			if(day==Integer.parseInt(arg)||month==Integer.parseInt(arg)||year==Integer.parseInt(arg)) {
+//				if(departures[j].toString().toLowerCase().indexOf(arg.toLowerCase())!=-1) {
+//					sb.append(departures[j].toString() + "\n");
+//				}
 			}
-			
-		}
+//			
+//			
+//		}
 		
 		
 		return sb.toString();
@@ -220,10 +237,6 @@ public class Airport {
 	
 	public String showLandingDataToWeb(String arg) {
 		StringBuffer sb = new StringBuffer();
-		int counter;
-//		sb.append("View all Landing information:\n");
-//		Arrays.sort(landing);
-//
 		for (int j = 0; j < landingCounter; j++) {
 			if(landing[j].toString().toLowerCase().indexOf(arg.toLowerCase())!=-1) {
 				sb.append(landing[j].toString() + "\n");
