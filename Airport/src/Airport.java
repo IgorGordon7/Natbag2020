@@ -1,12 +1,16 @@
 import java.io.File;
 import java.lang.reflect.Array;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Vector;
 
 import javax.management.loading.PrivateClassLoader;
+
+import javafx.print.Collation;
 
 public class Airport {
 	private String airportName;
@@ -50,12 +54,12 @@ public class Airport {
 			day = day.substring(day.indexOf("=") + 1);
 			String airport = myObj.nextLine();
 			airport = airport.substring(airport.indexOf("=") + 1);
-			if (destinationCityTemp.toLowerCase().indexOf("Destination".toLowerCase())!=-1) {
+			if (destinationCityTemp.toLowerCase().indexOf("Destination".toLowerCase()) != -1) {
 				addDepartureFlight(new DeparturesFlight(companyFlight, numFlight, scheduledTime1, terminal1,
-						destinationCity, destinationCountry, day,airport));
+						destinationCity, destinationCountry, day, airport));
 			} else {
 				addLandingFlight(new LandingFlight(companyFlight, numFlight, scheduledTime1, terminal1, destinationCity,
-						destinationCountry, day,airport));
+						destinationCountry, day, airport));
 			}
 
 		}
@@ -201,51 +205,103 @@ public class Airport {
 		return sb.toString();
 	}
 
-	public String showDeparturesDataToWeb(String[] arg) {
-		String [] array= {html, departures,elal,france,paris,CDG
-				4
-				6
-				2020
-				31
-				7
-				,2020
-				,true
-				,false
-				,false
-				,true
-				,false
-				,false
-				,false};
-		StringBuffer sb = new StringBuffer();
-		int day=0,month=0,year=0;
-//		for (int j = 0; j < departuresCounter; j++) {
-//			day=departures[j].scheduledTime.getDayOfMonth();
-//			month=departures[j].scheduledTime.getMonthValue();
-//			year=departures[j].scheduledTime.getYear();
-//			if(day==Integer.parseInt(arg)||month==Integer.parseInt(arg)||year==Integer.parseInt(arg)) {
-//				if(departures[j].toString().toLowerCase().indexOf(arg.toLowerCase())!=-1) {
-//					sb.append(departures[j].toString() + "\n");
-//				}
-			}
-//			
-//			
-//		}
-		
-		
-		return sb.toString();
-	}
 	
-	public String showLandingDataToWeb(String arg) {
-		StringBuffer sb = new StringBuffer();
-		for (int j = 0; j < landingCounter; j++) {
-			if(landing[j].toString().toLowerCase().indexOf(arg.toLowerCase())!=-1) {
-				sb.append(landing[j].toString() + "\n");
-			}
+	
+	public String showDeparturesDataToWeb(String[] arg) {
+		String [] array= {"html","departures","elal","france","paris","CDG",
+				"4","6","2020","31","7","2020"};
+			//	,"true","false","false","true","false","false","false"};
+		//סינונים: 1. נחיותות או המראות 2. חברת תעופה 3. מדינה 4. עיר 5.שם שדה תעופה 6/ תאריך התחלה 7. תאריך סיום 8. יום בשבוע (בוליאן)
+		//prepare filter array
+		
+		LocalDateTime startDateTime = null;
+		LocalDateTime endDateTime=null;
+		int day=0,month=0,year=0,count=0;
+		Vector<DeparturesFlight> temp= new Vector<DeparturesFlight>();	
+		for (int i = 0; i < departures.length; i++) {
+				temp.add(departures[i]);	
 		}
 		
-		
-		return sb.toString();
+		for (int i = 2; i < array.length; i++) {
+			boolean done=true;
+			String	tempFilter=array[i];
+			if(tempFilter.matches(".*\\d.*")) {
+				done=false;
+				if(count==0||count==3) {
+					day= Integer.parseInt(tempFilter);
+				}
+				else if(count==1 || count==4) {
+					month=Integer.parseInt(tempFilter);
+				}
+				else if(count==2 || count==5) {
+					year=Integer.parseInt(tempFilter);
+					if(count==2) {
+					startDateTime=LocalDateTime.of(year, month, day,00, 00, 00);
+					}
+					else {
+					endDateTime=LocalDateTime.of(year, month, day,00, 00, 00);	
+					}
+				}
+				++count;
+			}
+			
+			
+				while(done) {
+					temp=filters(array[i],temp);
+					done=false;
+				}
+				
+			}
+	
+    temp=checkIfFlightOk(temp, startDateTime,endDateTime);
+   
+    return filterdSearch(temp);
+
 	}
+	
+	private Vector<DeparturesFlight>  checkIfFlightOk(Vector<DeparturesFlight> temp, LocalDateTime startDateTime,
+			LocalDateTime endDateTime) {
+		for (int j = 0; j < temp.size(); j++) {
+			if (!(temp.get(j).scheduledTime.isAfter(startDateTime))
+					&& !(temp.get(j).scheduledTime.isBefore(endDateTime))) {
+				temp.remove(j);
+			}
+		}
+		return temp;
+		
+	}
+
+	private String filterdSearch(Vector<DeparturesFlight> filter) {
+		StringBuffer p= new StringBuffer();
+		for (int i = 0; i < filter.size(); i++) {
+			p.append(filter.get(i).toString()+"\n");
+		}
+		return p.toString();
+	}
+	
+	
+	private Vector<DeparturesFlight> filters(String string,Vector<DeparturesFlight> temp) {
+		Vector<DeparturesFlight> tempfilterd= new Vector<DeparturesFlight>();
+		for (int i = 0; i < temp.size(); i++) {
+			if(temp.get(i).toString().contains(string)) {
+				tempfilterd.add(temp.get(i));	
+			}
+		}
+		return tempfilterd;
+	}
+	
+
+//	public String showLandingDataToWeb(String[] args) {
+//		StringBuffer sb = new StringBuffer();
+//		for (int j = 0; j < landingCounter; j++) {
+//			if(landing[j].toString().toLowerCase().indexOf(args.toLowerCase())!=-1) {
+//				sb.append(landing[j].toString() + "\n");
+//			}
+//		}
+//		
+//		
+//		return sb.toString();
+//	}
 
 	@Override
 	public String toString() {
