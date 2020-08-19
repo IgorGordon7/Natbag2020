@@ -21,8 +21,8 @@ public abstract class Flight {
 
 	@Override
 	public String toString() {
-		return "Flight: Company Flight=" + companyFlight + "\n Flight Number=" + numFlight + "\n Scheduled Time="
-				+ scheduledTime + "\n Terminal Number=" + terminal+"\n";
+		return "Flight: Company Flight=" + companyFlight + "\nFlight Number=" + numFlight + "\nScheduled Time="
+				+ scheduledTime + "\nTerminal Number=" + terminal+"\n";
 	}
 
 	public String getCompanyFlight() {
