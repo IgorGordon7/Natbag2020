@@ -208,7 +208,7 @@ public class Airport {
 
 	public String showDeparturesDataToWeb(String[] arg) {
 		String[] array = { "html", "departures", "elal", "france", "paris", "CDG", "4", "6", "2020", "31", "7", "2020",
-				"true", "false", "false", "false", "false", "false", "false"};
+				"true", "false", "false", "true", "false", "false", "false"};
 		// סינונים: 1. נחיותות או המראות 2. חברת תעופה 3. מדינה 4. עיר 5.שם שדה תעופה 6/
 		// תאריך התחלה 7. תאריך סיום 8. יום בשבוע (בוליאן)
 		// prepare filter array
@@ -220,7 +220,6 @@ public class Airport {
 		for (int i = 0; i < departures.length; i++) {
 			temp.add(departures[i]);
 		}
-
 		for (int i = 2; i < array.length; i++) {
 			boolean done = true;
 			String tempFilter = array[i];
@@ -258,32 +257,35 @@ public class Airport {
 	}
 	private Vector<DeparturesFlight> filters(String string, Vector<DeparturesFlight> temp) {
 		int i=0;
+		boolean enterDays=false;
+		String day="";
 		for (; i < temp.size(); i++) {
 
 			if (string.equals("true") || string.equals("false")) {
+				enterDays=true;
 				if (counterDays == 1 && string.equals("true")) {
-					string = "Sunday";
+					day = "Sunday";
 				} else if (counterDays == 2 && string.equals("true")) {
-					string = "Monday";
+					day = "Monday";
 				} else if (counterDays == 3 && string.equals("true")) {
-					string = "Tuesday";
+					day = "Tuesday";
 				} else if (counterDays == 4 && string.equals("true")) {
-					string = "Wednesday";
+					day = "Wednesday";
 				} else if (counterDays == 5 && string.equals("true")) {
-					string = "Thursday";
+					day = "Thursday";
 				} else if (counterDays == 6 && string.equals("true")) {
-					string = "Friday";
+					day = "Friday";
 				} else if (counterDays == 7 && string.equals("true")) {
-					string = "Saturday";
+					day = "Saturday";
 				} else {
-					string = "NotDay";
+					day = "NotDay";
 				}
-				if(temp.get(i).toString().toLowerCase().contains(string.toLowerCase())) {
+				if(temp.get(i).toString().toLowerCase().contains(day.toLowerCase())) {
 					tempAfterFilter.add(temp.get(i));
 				}
 			}
 			
-			if (!(temp.get(i).toString().toLowerCase().contains(string.toLowerCase()))) {
+			if ((!(temp.get(i).toString().toLowerCase().contains(string.toLowerCase())))&&enterDays==false) {
 				temp.remove(temp.get(i));
 				i=-1;
 			}
