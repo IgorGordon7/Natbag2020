@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public abstract class Flight {
+public abstract class Flight implements Comparable<Flight>{
 	protected String companyFlight;
 	protected String numFlight;
 	protected LocalDateTime scheduledTime;
