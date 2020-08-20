@@ -2,7 +2,7 @@ import java.time.LocalTime;
 import java.time.LocalDateTime;
 
 
-public class DeparturesFlight extends Flight implements Comparable<DeparturesFlight> {
+public class DeparturesFlight extends Flight{ 
 	private String destinationCity;
 	private String destinationCountry;
 	private String DepartureAirport;
@@ -16,7 +16,7 @@ public class DeparturesFlight extends Flight implements Comparable<DeparturesFli
 		this.DepartureAirport=DepartureAirport;
 	}
 
-	public int compareTo(DeparturesFlight o) {
+	public int compareTo(Flight o) {
 		return this.scheduledTime.compareTo(o.scheduledTime);
 	}
 	
@@ -35,4 +35,7 @@ public class DeparturesFlight extends Flight implements Comparable<DeparturesFli
 	public String getDepartureDay() {
 		return day;
 	}
+
+	
+	
 }
