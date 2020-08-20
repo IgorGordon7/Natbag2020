@@ -5,7 +5,7 @@ public class LandingFlight extends Flight implements Comparable<LandingFlight> {
 	private String LandedFromCity;
 	private String LandedFromCountry;
 	private String LandingAirport;
-
+	private String day;
 	public LandingFlight(String companyFlight, String numFlight, LocalDateTime scheduledTime, int terminal,
 			String LandedFrom, String landedFromCountry, String day, String LandingAirport) {
 		super(companyFlight, numFlight, scheduledTime, terminal);
