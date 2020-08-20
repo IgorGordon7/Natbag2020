@@ -300,18 +300,12 @@ public class Main {
 				System.out.println(natbag.showDeparturesDataToWeb(args));
 			} else if (args[1].equals("arrivals")) {
 
-				// System.out.println(natbag.showLandingDataToWeb(args));
+				System.out.println(natbag.showLandingDataToWeb(args));
 
 			}
-//			if(args[1].equals("departures")) {
-//				sb.append(natbag.showDeparturesDataToWeb(args[i]));
-//				
-//			}
-//			if(args[1].equals("arrivals")) {
-//	
-//			}
+
 		}
-//		System.out.println(sb);
+
 
 	}
 }
