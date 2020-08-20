@@ -1,11 +1,12 @@
 import java.time.LocalTime;
 import java.time.LocalDateTime;
 
-public class LandingFlight extends Flight implements Comparable<LandingFlight> {
+public class LandingFlight extends Flight  {
 	private String LandedFromCity;
 	private String LandedFromCountry;
 	private String LandingAirport;
 	private String day;
+	
 	public LandingFlight(String companyFlight, String numFlight, LocalDateTime scheduledTime, int terminal,
 			String LandedFrom, String landedFromCountry, String day, String LandingAirport) {
 		super(companyFlight, numFlight, scheduledTime, terminal);
@@ -20,7 +21,7 @@ public class LandingFlight extends Flight implements Comparable<LandingFlight> {
 	"\nAirport="+ LandingAirport +"\n";
 	}
 
-	public int compareTo(LandingFlight o) {
+	public int compareTo(Flight o) {
 		return this.scheduledTime.compareTo(o.scheduledTime);
 	}
 
