@@ -8,9 +8,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Vector;
 
-import javax.management.loading.PrivateClassLoader;
 
-import javafx.print.Collation;
 
 public class Airport {
 	private String airportName;
@@ -19,6 +17,7 @@ public class Airport {
 	private DeparturesFlight departures[];
 	private int departuresCounter;
 	private int counterDays;
+	private Vector<DeparturesFlight> tempAfterFilter = new Vector<DeparturesFlight>();
 
 	public Airport(String name) {
 		this.airportName = name;
@@ -26,7 +25,7 @@ public class Airport {
 		this.landingCounter = 0;
 		this.departures = new DeparturesFlight[1];
 		this.departuresCounter = 0;
-		this.counterDays=1;
+		this.counterDays=0;
 	}
 
 	public Airport(Scanner myObj, String name) {
@@ -243,16 +242,53 @@ public class Airport {
 			}
 
 			while (done) {
-				temp = filters(array[i], temp);
+				if (tempFilter.equals("true") || tempFilter.equals("false")) {
+					++counterDays;
+				}
+				temp=(filters(array[i], temp));
 				done = false;
 			}
 
 		}
 
-		temp = checkIfFlightOkByDate(temp, startDateTime, endDateTime);
+		tempAfterFilter = checkIfFlightOkByDate(tempAfterFilter, startDateTime, endDateTime);
 
-		return filterdSearch(temp);
+		return filterdSearch(tempAfterFilter);
 
+	}
+	private Vector<DeparturesFlight> filters(String string, Vector<DeparturesFlight> temp) {
+		int i=0;
+		for (; i < temp.size(); i++) {
+
+			if (string.equals("true") || string.equals("false")) {
+				if (counterDays == 1 && string.equals("true")) {
+					string = "Sunday";
+				} else if (counterDays == 2 && string.equals("true")) {
+					string = "Monday";
+				} else if (counterDays == 3 && string.equals("true")) {
+					string = "Tuesday";
+				} else if (counterDays == 4 && string.equals("true")) {
+					string = "Wednesday";
+				} else if (counterDays == 5 && string.equals("true")) {
+					string = "Thursday";
+				} else if (counterDays == 6 && string.equals("true")) {
+					string = "Friday";
+				} else if (counterDays == 7 && string.equals("true")) {
+					string = "Saturday";
+				} else {
+					string = "NotDay";
+				}
+				if(temp.get(i).toString().toLowerCase().contains(string.toLowerCase())) {
+					tempAfterFilter.add(temp.get(i));
+				}
+			}
+			
+			if (!(temp.get(i).toString().toLowerCase().contains(string.toLowerCase()))) {
+				temp.remove(temp.get(i));
+				i=-1;
+			}
+		}
+		return temp;
 	}
 
 	private Vector<DeparturesFlight> checkIfFlightOkByDate(Vector<DeparturesFlight> temp, LocalDateTime startDateTime,
@@ -276,37 +312,7 @@ public class Airport {
 		return p.toString();
 	}
 
-	private Vector<DeparturesFlight> filters(String string, Vector<DeparturesFlight> temp) {
-		Vector<DeparturesFlight> tempfilterd = new Vector<DeparturesFlight>();
-		for (int i = 0; i < temp.size(); i++) {
-
-			if (string.equals("true") || string.equals("false")) {
-				if (counterDays == 1 && string.equals("true")) {
-					string = "Sunday";
-				} else if (counterDays == 2 && string.equals("true")) {
-					string = "Monday";
-				} else if (counterDays == 3 && string.equals("true")) {
-					string = "Tuesday";
-				} else if (counterDays == 4 && string.equals("true")) {
-					string = "Wednesday";
-				} else if (counterDays == 5 && string.equals("true")) {
-					string = "Thursday";
-				} else if (counterDays == 6 && string.equals("true")) {
-					string = "Friday";
-				} else if (counterDays == 7 && string.equals("true")) {
-					string = "Saturday";
-				} else {
-					string = "NotDay";
-				}
-				++counterDays;
-			}
-
-			if (temp.get(i).toString().toLowerCase().contains(string.toLowerCase())) {
-				tempfilterd.add(temp.get(i));
-			}
-		}
-		return tempfilterd;
-	}
+	
 	
 	
 	
