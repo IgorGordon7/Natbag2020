@@ -6,7 +6,7 @@ public class DeparturesFlight extends Flight implements Comparable<DeparturesFli
 	private String destinationCity;
 	private String destinationCountry;
 	private String DepartureAirport;
-
+	private String day;
 	public DeparturesFlight(String companyFlight, String numFlight, LocalDateTime scheduledTime, int terminal,
 			String destinationCity,String destinationCountry,String day, String DepartureAirport) {
 		super(companyFlight, numFlight, scheduledTime, terminal);
