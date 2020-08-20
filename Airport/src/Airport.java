@@ -18,7 +18,7 @@ public class Airport {
 	private DeparturesFlight departures[];
 	private int departuresCounter;
 	private int counterDays;
-	private Vector<DeparturesFlight> tempAfterFilter = new Vector<DeparturesFlight>();
+	private Vector<Flight> tempAfterFilter = new Vector<Flight>();
 
 	public Airport(String name) {
 		this.airportName = name;
@@ -217,7 +217,7 @@ public class Airport {
 		LocalDateTime startDateTime = null;
 		LocalDateTime endDateTime = null;
 		int day = 0, month = 0, year = 0, count = 0;
-		Vector<DeparturesFlight> temp = new Vector<DeparturesFlight>();
+		Vector<Flight> temp = new Vector<Flight>();
 		for (int i = 0; i < departures.length; i++) {
 			temp.add(departures[i]);
 		}
@@ -256,7 +256,8 @@ public class Airport {
 		return filterdSearch(tempAfterFilter);
 
 	}
-	private Vector<DeparturesFlight> filters(String string, Vector<DeparturesFlight> temp) {
+	
+	private Vector<Flight> filters(String string, Vector<Flight> temp) {
 		int i=0;
 		boolean enterDays=false;
 		String day="";
@@ -294,7 +295,7 @@ public class Airport {
 		return temp;
 	}
 
-	private Vector<DeparturesFlight> checkIfFlightOkByDate(Vector<DeparturesFlight> temp, LocalDateTime startDateTime,
+	private Vector<Flight> checkIfFlightOkByDate(Vector<Flight> temp, LocalDateTime startDateTime,
 			LocalDateTime endDateTime) {
 		for (int j = 0; j < temp.size(); j++) {
 			if ((temp.get(j).scheduledTime.isAfter(startDateTime))
@@ -307,7 +308,7 @@ public class Airport {
 		return temp;
 	}
 
-	private String filterdSearch(Vector<DeparturesFlight> filter) {
+	private String filterdSearch(Vector<Flight> filter) {
 		StringBuffer p = new StringBuffer();
 		for (int i = 0; i < filter.size(); i++) {
 			p.append(filter.get(i).toString() + "\n");
@@ -317,23 +318,51 @@ public class Airport {
 		return p.toString();
 	}
 
-	
-	
-	
-	
-	
 
-//	public String showLandingDataToWeb(String[] args) {
-//		StringBuffer sb = new StringBuffer();
-//		for (int j = 0; j < landingCounter; j++) {
-//			if(landing[j].toString().toLowerCase().indexOf(args.toLowerCase())!=-1) {
-//				sb.append(landing[j].toString() + "\n");
-//			}
-//		}
-//		
-//		
-//		return sb.toString();
-//	}
+	public String showLandingDataToWeb(String[] args) {
+		String[] array = { "html", "departures", "elal", "france", "paris", "CDG", "4", "6", "2020", "31", "7", "2020",
+				"true", "false", "false", "true", "false", "false", "false"};
+		LocalDateTime startDateTime = null;
+		LocalDateTime endDateTime = null;
+		int day = 0, month = 0, year = 0, count = 0;
+		Vector<Flight> temp = new Vector<Flight>();
+		for (int i = 0; i < landing.length; i++) {
+			temp.add(landing[i]);
+		}
+		for (int i = 2; i < array.length; i++) {
+			boolean done = true;
+			String tempFilter = array[i];
+			if (tempFilter.matches(".*\\d.*")) {
+				done = false;
+				if (count == 0 || count == 3) {
+					day = Integer.parseInt(tempFilter);
+				} else if (count == 1 || count == 4) {
+					month = Integer.parseInt(tempFilter);
+				} else if (count == 2 || count == 5) {
+					year = Integer.parseInt(tempFilter);
+					if (count == 2) {
+						startDateTime = LocalDateTime.of(year, month, day, 00, 00, 00);
+					} else {
+						endDateTime = LocalDateTime.of(year, month, day, 00, 00, 00);
+					}
+				}
+				++count;
+			}
+
+			while (done) {
+				if (tempFilter.equals("true") || tempFilter.equals("false")) {
+					++counterDays;
+				}
+				temp=(filters(array[i], temp));
+				done = false;
+			}
+
+		}
+
+		tempAfterFilter = checkIfFlightOkByDate(tempAfterFilter, startDateTime, endDateTime);
+		Collections.sort(tempAfterFilter);
+		return filterdSearch(tempAfterFilter);
+	}
 
 	@Override
 	public String toString() {
