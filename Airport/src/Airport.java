@@ -18,6 +18,7 @@ public class Airport {
 	private int landingCounter;
 	private DeparturesFlight departures[];
 	private int departuresCounter;
+	private int counterDays;
 
 	public Airport(String name) {
 		this.airportName = name;
@@ -25,6 +26,7 @@ public class Airport {
 		this.landingCounter = 0;
 		this.departures = new DeparturesFlight[1];
 		this.departuresCounter = 0;
+		this.counterDays=1;
 	}
 
 	public Airport(Scanner myObj, String name) {
@@ -205,90 +207,109 @@ public class Airport {
 		return sb.toString();
 	}
 
-	
-	
 	public String showDeparturesDataToWeb(String[] arg) {
-		String [] array= {"html","departures","elal","france","paris","CDG",
-				"4","6","2020","31","7","2020"};
-			//	,"true","false","false","true","false","false","false"};
-		//סינונים: 1. נחיותות או המראות 2. חברת תעופה 3. מדינה 4. עיר 5.שם שדה תעופה 6/ תאריך התחלה 7. תאריך סיום 8. יום בשבוע (בוליאן)
-		//prepare filter array
-		
+		String[] array = { "html", "departures", "elal", "france", "paris", "CDG", "4", "6", "2020", "31", "7", "2020",
+				"true", "false", "false", "false", "false", "false", "false"};
+		// סינונים: 1. נחיותות או המראות 2. חברת תעופה 3. מדינה 4. עיר 5.שם שדה תעופה 6/
+		// תאריך התחלה 7. תאריך סיום 8. יום בשבוע (בוליאן)
+		// prepare filter array
+
 		LocalDateTime startDateTime = null;
-		LocalDateTime endDateTime=null;
-		int day=0,month=0,year=0,count=0;
-		Vector<DeparturesFlight> temp= new Vector<DeparturesFlight>();	
+		LocalDateTime endDateTime = null;
+		int day = 0, month = 0, year = 0, count = 0;
+		Vector<DeparturesFlight> temp = new Vector<DeparturesFlight>();
 		for (int i = 0; i < departures.length; i++) {
-				temp.add(departures[i]);	
+			temp.add(departures[i]);
 		}
-		
+
 		for (int i = 2; i < array.length; i++) {
-			boolean done=true;
-			String	tempFilter=array[i];
-			if(tempFilter.matches(".*\\d.*")) {
-				done=false;
-				if(count==0||count==3) {
-					day= Integer.parseInt(tempFilter);
-				}
-				else if(count==1 || count==4) {
-					month=Integer.parseInt(tempFilter);
-				}
-				else if(count==2 || count==5) {
-					year=Integer.parseInt(tempFilter);
-					if(count==2) {
-					startDateTime=LocalDateTime.of(year, month, day,00, 00, 00);
-					}
-					else {
-					endDateTime=LocalDateTime.of(year, month, day,00, 00, 00);	
+			boolean done = true;
+			String tempFilter = array[i];
+			if (tempFilter.matches(".*\\d.*")) {
+				done = false;
+				if (count == 0 || count == 3) {
+					day = Integer.parseInt(tempFilter);
+				} else if (count == 1 || count == 4) {
+					month = Integer.parseInt(tempFilter);
+				} else if (count == 2 || count == 5) {
+					year = Integer.parseInt(tempFilter);
+					if (count == 2) {
+						startDateTime = LocalDateTime.of(year, month, day, 00, 00, 00);
+					} else {
+						endDateTime = LocalDateTime.of(year, month, day, 00, 00, 00);
 					}
 				}
 				++count;
 			}
-			
-			
-				while(done) {
-					temp=filters(array[i],temp);
-					done=false;
-				}
-				
+
+			while (done) {
+				temp = filters(array[i], temp);
+				done = false;
 			}
-	
-    temp=checkIfFlightOk(temp, startDateTime,endDateTime);
-   
-    return filterdSearch(temp);
+
+		}
+
+		temp = checkIfFlightOkByDate(temp, startDateTime, endDateTime);
+
+		return filterdSearch(temp);
 
 	}
-	
-	private Vector<DeparturesFlight>  checkIfFlightOk(Vector<DeparturesFlight> temp, LocalDateTime startDateTime,
+
+	private Vector<DeparturesFlight> checkIfFlightOkByDate(Vector<DeparturesFlight> temp, LocalDateTime startDateTime,
 			LocalDateTime endDateTime) {
 		for (int j = 0; j < temp.size(); j++) {
-			if (!(temp.get(j).scheduledTime.isAfter(startDateTime))
-					&& !(temp.get(j).scheduledTime.isBefore(endDateTime))) {
+			if ((temp.get(j).scheduledTime.isAfter(startDateTime))
+					&& (temp.get(j).scheduledTime.isBefore(endDateTime))) {
+				continue;
+			} else {
 				temp.remove(j);
 			}
 		}
 		return temp;
-		
 	}
 
 	private String filterdSearch(Vector<DeparturesFlight> filter) {
-		StringBuffer p= new StringBuffer();
+		StringBuffer p = new StringBuffer();
 		for (int i = 0; i < filter.size(); i++) {
-			p.append(filter.get(i).toString()+"\n");
+			p.append(filter.get(i).toString() + "\n");
 		}
 		return p.toString();
 	}
-	
-	
-	private Vector<DeparturesFlight> filters(String string,Vector<DeparturesFlight> temp) {
-		Vector<DeparturesFlight> tempfilterd= new Vector<DeparturesFlight>();
+
+	private Vector<DeparturesFlight> filters(String string, Vector<DeparturesFlight> temp) {
+		Vector<DeparturesFlight> tempfilterd = new Vector<DeparturesFlight>();
 		for (int i = 0; i < temp.size(); i++) {
-			if(temp.get(i).toString().contains(string)) {
-				tempfilterd.add(temp.get(i));	
+
+			if (string.equals("true") || string.equals("false")) {
+				if (counterDays == 1 && string.equals("true")) {
+					string = "Sunday";
+				} else if (counterDays == 2 && string.equals("true")) {
+					string = "Monday";
+				} else if (counterDays == 3 && string.equals("true")) {
+					string = "Tuesday";
+				} else if (counterDays == 4 && string.equals("true")) {
+					string = "Wednesday";
+				} else if (counterDays == 5 && string.equals("true")) {
+					string = "Thursday";
+				} else if (counterDays == 6 && string.equals("true")) {
+					string = "Friday";
+				} else if (counterDays == 7 && string.equals("true")) {
+					string = "Saturday";
+				} else {
+					string = "NotDay";
+				}
+				++counterDays;
+			}
+
+			if (temp.get(i).toString().toLowerCase().contains(string.toLowerCase())) {
+				tempfilterd.add(temp.get(i));
 			}
 		}
 		return tempfilterd;
 	}
+	
+	
+	
 	
 
 //	public String showLandingDataToWeb(String[] args) {
