@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -251,7 +252,7 @@ public class Airport {
 		}
 
 		tempAfterFilter = checkIfFlightOkByDate(tempAfterFilter, startDateTime, endDateTime);
-
+		Collections.sort(tempAfterFilter);
 		return filterdSearch(tempAfterFilter);
 
 	}
@@ -310,7 +311,9 @@ public class Airport {
 		StringBuffer p = new StringBuffer();
 		for (int i = 0; i < filter.size(); i++) {
 			p.append(filter.get(i).toString() + "\n");
+			p.append("<br>");
 		}
+		tempAfterFilter=null;
 		return p.toString();
 	}
 
