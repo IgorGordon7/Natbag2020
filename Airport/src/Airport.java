@@ -208,8 +208,8 @@ public class Airport {
 	}
 
 	public String showDeparturesDataToWeb(String[] arg) {
-		String[] array = { "html", "departures", "elal", "france", "paris", "CDG", "4", "6", "2020", "31", "7", "2020",
-				"true", "false", "false", "true", "false", "false", "false"};
+//		String[] array = { "html", "departures", "elal", "france", "paris", "CDG", "4", "6", "2020", "31", "7", "2020",
+//				"true", "false", "false", "true", "false", "false", "false"};
 		// סינונים: 1. נחיותות או המראות 2. חברת תעופה 3. מדינה 4. עיר 5.שם שדה תעופה 6/
 		// תאריך התחלה 7. תאריך סיום 8. יום בשבוע (בוליאן)
 		// prepare filter array
@@ -221,9 +221,9 @@ public class Airport {
 		for (int i = 0; i < departures.length; i++) {
 			temp.add(departures[i]);
 		}
-		for (int i = 2; i < array.length; i++) {
+		for (int i = 2; i < arg.length; i++) {
 			boolean done = true;
-			String tempFilter = array[i];
+			String tempFilter = arg[i];
 			if (tempFilter.matches(".*\\d.*")) {
 				done = false;
 				if (count == 0 || count == 3) {
@@ -245,16 +245,22 @@ public class Airport {
 				if (tempFilter.equals("true") || tempFilter.equals("false")) {
 					++counterDays;
 				}
-				temp=(filters(array[i], temp));
+				temp=(filters(arg[i], temp));
 				done = false;
 			}
 
 		}
 
-		tempAfterFilter = checkIfFlightOkByDate(tempAfterFilter, startDateTime, endDateTime);
-		Collections.sort(tempAfterFilter);
-		return filterdSearch(tempAfterFilter);
-
+		
+			tempAfterFilter = checkIfFlightOkByDate(tempAfterFilter, startDateTime, endDateTime);
+			Collections.sort(tempAfterFilter);
+			String tempReturn =filterdSearch(tempAfterFilter);
+			if(!(tempReturn.isEmpty())) {
+				return tempReturn;
+			}else {
+				return "No flight has been found"+"\n<br>";
+			}
+		
 	}
 	
 	private Vector<Flight> filters(String string, Vector<Flight> temp) {
@@ -289,7 +295,7 @@ public class Airport {
 			
 			if ((!(temp.get(i).toString().toLowerCase().contains(string.toLowerCase())))&&enterDays==false) {
 				temp.remove(temp.get(i));
-				i=-1;
+				i--;
 			}
 		}
 		return temp;
@@ -314,14 +320,15 @@ public class Airport {
 			p.append(filter.get(i).toString() + "\n");
 			p.append("<br>");
 		}
-		tempAfterFilter=null;
+		counterDays=0;
+		tempAfterFilter.clear();
 		return p.toString();
 	}
 
 
 	public String showLandingDataToWeb(String[] args) {
-		String[] array = { "html", "departures", "elal", "france", "paris", "CDG", "4", "6", "2020", "31", "7", "2020",
-				"true", "false", "false", "true", "false", "false", "false"};
+//		String[] array = { "html", "departures", "elal", "france", "paris", "CDG", "4", "6", "2020", "31", "7", "2020",
+//				"true", "false", "false", "true", "false", "false", "false"};
 		LocalDateTime startDateTime = null;
 		LocalDateTime endDateTime = null;
 		int day = 0, month = 0, year = 0, count = 0;
@@ -329,9 +336,9 @@ public class Airport {
 		for (int i = 0; i < landing.length; i++) {
 			temp.add(landing[i]);
 		}
-		for (int i = 2; i < array.length; i++) {
+		for (int i = 2; i < args.length; i++) {
 			boolean done = true;
-			String tempFilter = array[i];
+			String tempFilter = args[i];
 			if (tempFilter.matches(".*\\d.*")) {
 				done = false;
 				if (count == 0 || count == 3) {
@@ -353,15 +360,22 @@ public class Airport {
 				if (tempFilter.equals("true") || tempFilter.equals("false")) {
 					++counterDays;
 				}
-				temp=(filters(array[i], temp));
+				temp=(filters(args[i], temp));
 				done = false;
 			}
 
 		}
 
-		tempAfterFilter = checkIfFlightOkByDate(tempAfterFilter, startDateTime, endDateTime);
-		Collections.sort(tempAfterFilter);
-		return filterdSearch(tempAfterFilter);
+		
+			tempAfterFilter = checkIfFlightOkByDate(tempAfterFilter, startDateTime, endDateTime);
+			Collections.sort(tempAfterFilter);
+			String tempReturn =filterdSearch(tempAfterFilter);
+			if(!(tempReturn.isEmpty())) {
+				return tempReturn;
+			}else {
+				return "No flight has been found"+"\n<br>";
+			}
+		
 	}
 
 	@Override
