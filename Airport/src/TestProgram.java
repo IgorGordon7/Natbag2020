@@ -12,27 +12,40 @@ public class TestProgram {
 		Airport natbag = createAirport();
 		StringBuffer expectedResult = new StringBuffer();
 		expectedResult.append("View all Departures information:"+"\n");
-		expectedResult.append("Flight: Company Flight="+"El-Al"+"\n");
-		expectedResult.append(" Flight Number="+"LY001"+"\n");
-		expectedResult.append(" Scheduled Time="+LocalDateTime.of(2020, 05, 20, 00, 45, 00)+"\n");
-		expectedResult.append(" Terminal Number="+3+"\n");
-		expectedResult.append("Destination="+"New-york"+"\n");
-		expectedResult.append("\n");
-		expectedResult.append("Flight: Company Flight="+"El-Al"+"\n");
-		expectedResult.append(" Flight Number="+"LY315"+"\n");
-		expectedResult.append(" Scheduled Time="+LocalDateTime.of(2020, 05, 20, 10, 10, 00)+"\n");
-		expectedResult.append(" Terminal Number="+3+"\n");
-		expectedResult.append("Destination="+"London"+"\n");
-		expectedResult.append("\n");
-		assertEquals(expectedResult.toString(), natbag.showDeparturesFlight());
+		expectedResult.append("Flight: Company Flight="+"elal"+"\n");
+		expectedResult.append("Flight Number="+"7890"+"\n");
+		expectedResult.append("Scheduled Time="+LocalDateTime.of(2020, 06, 16, 14, 30, 00)+"\n");
+		expectedResult.append("Terminal Number="+3+"\n");
+		expectedResult.append("Destination Country="+"france"+"\n");
+		expectedResult.append("Destination City="+"paris"+"\n");
+		expectedResult.append("Day="+"sunday"+"\n");
+		expectedResult.append("Airport="+"CDG"+"\n");
+		
+		expectedResult.append("\n"+"View all Landing information:"+"\n");
+		expectedResult.append("Flight: Company Flight="+"elal"+"\n");
+		expectedResult.append("Flight Number="+"23010"+"\n");
+		expectedResult.append("Scheduled Time="+LocalDateTime.of(2020, 07, 18, 20, 00, 00)+"\n");
+		expectedResult.append("Terminal Number="+3+"\n");
+		expectedResult.append("Landed From Country="+"england"+"\n");
+		expectedResult.append("Landed From City="+"london"+"\n");
+		expectedResult.append("Day="+"tuesday"+"\n");
+		expectedResult.append("Airport="+"Queen"+"\n"+"\n");
+
+		StringBuffer allFlights=new StringBuffer();
+		allFlights.append(natbag.showDeparturesFlight());
+		allFlights.append(natbag.showLandingFlight());
+		
+		
+		assertEquals(expectedResult.toString(), allFlights.toString());
 	}
 
 	private Airport createAirport() {
 		Airport natbag = new Airport("Natbag");
-		LocalDateTime time = LocalDateTime.of(2020, 05, 20, 10, 10, 00);
-		natbag.addDepartureFlight(new DeparturesFlight("El-Al", "LY315", time, 3, "London"));
-		time = LocalDateTime.of(2020, 05, 20, 00, 45, 00);
-		natbag.addDepartureFlight(new DeparturesFlight("El-Al", "LY001", time, 3, "New-york"));
+		LocalDateTime time = LocalDateTime.of(2020, 06, 16, 14, 30, 00);
+		natbag.addDepartureFlight(new DeparturesFlight("elal", "7890", time, 3, "paris","france","sunday","CDG"));
+		time = LocalDateTime.of(2020, 07, 18, 20, 00, 00);
+		natbag.addLandingFlight(new LandingFlight("elal", "23010", time, 3, "london","england","tuesday","Queen"));
 		return natbag;
+		
 	}
 }
