@@ -17,7 +17,7 @@ public class LandingFlight extends Flight  {
 	}
 
 	public String toString() {
-		return super.toString() + "Landed From City=" + LandedFromCity + "\nLanden from Country=" + LandedFromCountry +"\nDay=" + day +
+		return super.toString()  + "Landed From Country="+ LandedFromCountry+"\nLanded From City=" + LandedFromCity +"\nDay=" + day +
 	"\nAirport="+ LandingAirport +"\n";
 	}
 
@@ -30,10 +30,4 @@ public class LandingFlight extends Flight  {
 	}
 
 	public String landedFromCountry() {
-		return LandedFromCountry;
-	}
-	
-	public String getLandingDay() {
-		return day;
-	}
-}
+		return Lan
