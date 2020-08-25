@@ -15,15 +15,6 @@ public class Main {
 		Scanner scan = new Scanner(System.in);
 
 		Airport natbag = new Airport("Natbag");
-		LocalDateTime time = LocalDateTime.of(2020, 05, 20, 10, 10, 00);
-		natbag.addDepartureFlight(new DeparturesFlight("elal", "LY315", time, 3, "London", "England", "Monday","LDA"));
-		time = LocalDateTime.of(2020, 05, 20, 00, 45, 00);
-		natbag.addDepartureFlight(new DeparturesFlight("elal", "LY001", time, 3, "New-York", "New-York", "Sunday","MNG"));
-		time = LocalDateTime.of(2020, 06, 20, 00, 45, 00);
-		natbag.addDepartureFlight(new DeparturesFlight("elal", "LY043", time, 3, "paris", "france", "Sunday","CDG"));
-
-		
-		
 		
 		System.out.println("Flight Menu:\n" + "1.Add landing flight.\n" + "2.Add departure flight.\n"
 				+ "3.View all takeoff details(sorted by date and time).\n"
@@ -270,13 +261,14 @@ public class Main {
 
 			case 9:
 				System.out.println(natbag.showDeparturesDataToWeb(args));
+				System.out.println(natbag.showLandingDataToWeb(args));
 				break;
 			}
 		}
 	}
 
 	public void getDataFromWeb(String[] args) {
-		// StringBuffer sb = new StringBuffer();
+
 		if (args.length > 0) {
 			try {
 				File myObj = new File("airport.txt");
@@ -288,12 +280,22 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
+		
 
-		for (int i = 0; i < args.length; i++) {
-			System.out.println(args[i]);
-			// why print?
-			if (args[0].equals("html")) {
+			System.out.println("Argument were found are:");
+			for (int i = 0; i < args.length; i++) {
+				if (args[0].equals("html")) {
+					System.out.println("<br>");
+					System.out.println(args[i]);
+				}else {
+					System.out.println(args[i]+"\n");
+				}
+			}
+			if(args[0].equals("html")) {
 				System.out.println("<br>");
+				System.out.println("Flights that stands with the conditions are:"+"<br>");
+			}else {
+				System.out.println("\nFlights that stands with the conditions are:"+"\n");
 			}
 			if (args[1].equals("departures")) {
 
@@ -303,9 +305,6 @@ public class Main {
 				System.out.println(natbag.showLandingDataToWeb(args));
 
 			}
-
-		}
-
 
 	}
 }
