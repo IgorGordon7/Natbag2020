@@ -94,6 +94,7 @@ public class Airport {
 		for (int j = 0; j < landingCounter; j++) {
 			sb.append(landing[j].toString() + "\n");
 		}
+		
 		return sb.toString();
 	}
 
@@ -122,31 +123,31 @@ public class Airport {
 			}
 		} else if (g2.equals("Destination City")) {
 			for (int j = 0; j < departuresCounter; j++) {
-				if (departures[j].getDestinationCity().equals(g1)) {
+				if (departures[j].getDestinationCity().toLowerCase().equals(g1.toString().toLowerCase())) {
 					sb.append(departures[j].toString() + "\n");
 				}
 			}
 		} else if (g2.equals("companyFlight")) {
 			for (int j = 0; j < departuresCounter; j++) {
-				if (departures[j].companyFlight.equals(g1)) {
+				if (departures[j].companyFlight.toLowerCase().equals(g1.toString().toLowerCase())) {
 					sb.append(departures[j].toString() + "\n");
 				}
 			}
 		} else if (g2.equals("numFlight")) {
 			for (int j = 0; j < departuresCounter; j++) {
-				if (departures[j].numFlight.equals(g1)) {
+				if (departures[j].numFlight.toLowerCase().equals(g1.toString().toLowerCase())) {
 					sb.append(departures[j].toString() + "\n");
 				}
 			}
 		} else if (g2.equals("Destination Country")) {
 			for (int j = 0; j < departuresCounter; j++) {
-				if (departures[j].getDestinationCountry().equals(g1)) {
+				if (departures[j].getDestinationCountry().toLowerCase().equals(g1.toString().toLowerCase())) {
 					sb.append(departures[j].toString() + "\n");
 				}
 			}
 		} else if (g2.equals("Day")) {
 			for (int j = 0; j < departuresCounter; j++) {
-				if (departures[j].getDepartureDay().equals(g1)) {
+				if (departures[j].getDepartureDay().toLowerCase().equals(g1.toString().toLowerCase())) {
 					sb.append(departures[j].toString() + "\n");
 				}
 			}
@@ -169,37 +170,37 @@ public class Airport {
 			}
 		} else if (g2.equals("Landed")) {
 			for (int j = 0; j < landingCounter; j++) {
-				if (landing[j].getLandedFromCity().equals(g1)) {
+				if (landing[j].getLandedFromCity().toLowerCase().equals(g1.toString().toLowerCase())) {
 					sb.append(landing[j].toString() + "\n");
 				}
 			}
 		} else if (g2.equals("companyFlight")) {
 			for (int j = 0; j < landingCounter; j++) {
-				if (landing[j].companyFlight.equals(g1)) {
+				if (landing[j].companyFlight.toLowerCase().equals(g1.toString().toLowerCase())) {
 					sb.append(landing[j].toString() + "\n");
 				}
 			}
 		} else if (g2.equals("numFlight")) {
 			for (int j = 0; j < landingCounter; j++) {
-				if (landing[j].numFlight.equals(g1)) {
+				if (landing[j].numFlight.toLowerCase().equals(g1.toString().toLowerCase())) {
 					sb.append(landing[j].toString() + "\n");
 				}
 			}
 		} else if (g2.equals("Landing Country")) {
 			for (int j = 0; j < landingCounter; j++) {
-				if (landing[j].landedFromCountry().equals(g1)) {
+				if (landing[j].landedFromCountry().toLowerCase().equals(g1.toString().toLowerCase())) {
 					sb.append(landing[j].toString() + "\n");
 				}
 			}
 		} else if (g2.equals("Landing City")) {
 			for (int j = 0; j < landingCounter; j++) {
-				if (landing[j].getLandedFromCity().equals(g1)) {
+				if (landing[j].getLandedFromCity().toLowerCase().equals(g1.toString().toLowerCase())) {
 					sb.append(landing[j].toString() + "\n");
 				}
 			}
 		} else if (g2.equals("Day")) {
 			for (int j = 0; j < landingCounter; j++) {
-				if (landing[j].getLandingDay().equals(g1)) {
+				if (landing[j].getLandingDay().toLowerCase().equals(g1.toString().toLowerCase())) {
 					sb.append(landing[j].toString() + "\n");
 				}
 			}
@@ -208,12 +209,6 @@ public class Airport {
 	}
 
 	public String showDeparturesDataToWeb(String[] arg) {
-//		String[] array = { "html", "departures", "elal", "france", "paris", "CDG", "4", "6", "2020", "31", "7", "2020",
-//				"true", "false", "false", "true", "false", "false", "false"};
-		// סינונים: 1. נחיותות או המראות 2. חברת תעופה 3. מדינה 4. עיר 5.שם שדה תעופה 6/
-		// תאריך התחלה 7. תאריך סיום 8. יום בשבוע (בוליאן)
-		// prepare filter array
-
 		LocalDateTime startDateTime = null;
 		LocalDateTime endDateTime = null;
 		int day = 0, month = 0, year = 0, count = 0;
@@ -245,7 +240,7 @@ public class Airport {
 				if (tempFilter.equals("true") || tempFilter.equals("false")) {
 					++counterDays;
 				}
-				temp=(filters(arg[i], temp));
+				temp=(doFilter(arg[i], temp));
 				done = false;
 			}
 
@@ -254,7 +249,7 @@ public class Airport {
 		
 			tempAfterFilter = checkIfFlightOkByDate(tempAfterFilter, startDateTime, endDateTime);
 			Collections.sort(tempAfterFilter);
-			String tempReturn =filterdSearch(tempAfterFilter);
+			String tempReturn =getFinalResult(tempAfterFilter);
 			if(!(tempReturn.isEmpty())) {
 				return tempReturn;
 			}else {
@@ -263,7 +258,7 @@ public class Airport {
 		
 	}
 	
-	private Vector<Flight> filters(String string, Vector<Flight> temp) {
+	private Vector<Flight> doFilter(String string, Vector<Flight> temp) {
 		int i=0;
 		boolean enterDays=false;
 		String day="";
@@ -314,7 +309,7 @@ public class Airport {
 		return temp;
 	}
 
-	private String filterdSearch(Vector<Flight> filter) {
+	private String getFinalResult(Vector<Flight> filter) {
 		StringBuffer p = new StringBuffer();
 		for (int i = 0; i < filter.size(); i++) {
 			p.append(filter.get(i).toString() + "\n");
@@ -327,8 +322,6 @@ public class Airport {
 
 
 	public String showLandingDataToWeb(String[] args) {
-//		String[] array = { "html", "departures", "elal", "france", "paris", "CDG", "4", "6", "2020", "31", "7", "2020",
-//				"true", "false", "false", "true", "false", "false", "false"};
 		LocalDateTime startDateTime = null;
 		LocalDateTime endDateTime = null;
 		int day = 0, month = 0, year = 0, count = 0;
@@ -360,7 +353,7 @@ public class Airport {
 				if (tempFilter.equals("true") || tempFilter.equals("false")) {
 					++counterDays;
 				}
-				temp=(filters(args[i], temp));
+				temp=(doFilter(args[i], temp));
 				done = false;
 			}
 
@@ -369,7 +362,7 @@ public class Airport {
 		
 			tempAfterFilter = checkIfFlightOkByDate(tempAfterFilter, startDateTime, endDateTime);
 			Collections.sort(tempAfterFilter);
-			String tempReturn =filterdSearch(tempAfterFilter);
+			String tempReturn =getFinalResult(tempAfterFilter);
 			if(!(tempReturn.isEmpty())) {
 				return tempReturn;
 			}else {
@@ -399,5 +392,11 @@ public class Airport {
 
 	public DeparturesFlight[] getDepartures() {
 		return departures;
+	}
+	public void checkIfFlightsEmpty() throws NoFLightsExeption {
+		
+		if(getDeparturesCounter()==0||getLandingCounter()==0) {
+			throw new NoFLightsExeption();
+		}
 	}
 }
