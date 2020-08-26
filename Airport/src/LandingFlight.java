@@ -30,4 +30,10 @@ public class LandingFlight extends Flight  {
 	}
 
 	public String landedFromCountry() {
-		return Lan
+		return LandedFromCountry;
+	}
+	
+	public String getLandingDay() {
+		return day;
+	}
+}
