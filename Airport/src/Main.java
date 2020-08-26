@@ -2,7 +2,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-//import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -76,12 +75,25 @@ public class Main {
 				break;
 
 			case 3:
+				try {
+					natbag.checkIfFlightsEmpty();
+				
 				System.out.println(natbag.showDeparturesFlight());
 				break;
+				}catch(NoFLightsExeption e) {
+					System.out.println(e.getMessage());
+				}
+				
 
 			case 4:
+				try {
+					natbag.checkIfFlightsEmpty();
+				
 				System.out.println(natbag.showLandingFlight());
 				break;
+				}catch(NoFLightsExeption e) {
+					System.out.println(e.getMessage());
+				}
 
 			case 5:
 				try {
@@ -130,139 +142,140 @@ public class Main {
 				break;
 
 			case 7:
-
-				System.out.println("1. Search for Departures\n" + "2. Search for Arrivals\n");
-				int answer = scan.nextInt();
-				switch (answer) {
-				case 1:
-					System.out.println(
-							"1. Search by Flight Number\n" + "2. Search by Flight Company\n" + "3. Search by Date\n"
-									+ "4. Search by Destination City\n" + "5. Search by Destination Country\n"
-									+ "6. Search by Day\n" + "7. Search by Airport name");
-					int answer1 = scan.nextInt();
-					switch (answer1) {
-
+				try {
+						natbag.checkIfFlightsEmpty();
+					System.out.println("1. Search for Departures\n" + "2. Search for Arrivals\n");
+					int answer = scan.nextInt();
+					switch (answer) {
 					case 1:
-						System.out.println("Type the Flight number");
-						String flightNum = scan.next();
+						System.out.println(
+								"1. Search by Flight Number\n" + "2. Search by Flight Company\n" + "3. Search by Date\n"
+										+ "4. Search by Destination City\n" + "5. Search by Destination Country\n"
+										+ "6. Search by Day\n" + "7. Search by Airport name");
+						int answer1 = scan.nextInt();
+						switch (answer1) {
 
-						System.out.println(natbag.showDeparturesFlightScheduled(flightNum, "numFlight"));
+						case 1:
+							System.out.println("Type the Flight number");
+							String flightNum = scan.next();
+
+							System.out.println(natbag.showDeparturesFlightScheduled(flightNum, "numFlight"));
+							break;
+
+						case 2:
+							System.out.println("Type the Flight Company");
+							String flightCompany = scan.next();
+
+							System.out.println(natbag.showDeparturesFlightScheduled(flightCompany, "companyFlight"));
+							break;
+
+						case 3:
+							System.out.println("Time from: yyyy-MM-dd_HH:mm");
+							String timeFrom = scan.next();
+							DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
+							LocalDateTime scheduledTime3 = LocalDateTime.parse(timeFrom, formatter3);
+
+							System.out.println("Time to: yyyy-MM-dd_HH:mm");
+							String timeTo = scan.next();
+							DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
+							LocalDateTime scheduledTime4 = LocalDateTime.parse(timeTo, formatter4);
+							System.out.println(natbag.showDeparturesFlightScheduled(scheduledTime3, scheduledTime4));
+							break;
+						case 4:
+							System.out.println("Type the Destination City");
+							String dest = scan.next();
+							System.out.println(natbag.showDeparturesFlightScheduled(dest, "Destination City"));
+							break;
+						case 5:
+							System.out.println("Type the Destination Country");
+							dest = scan.next();
+							System.out.println(natbag.showDeparturesFlightScheduled(dest, "Destination Country"));
+							break;
+						case 6:
+							System.out.println("Type the Day");
+							day = scan.next();
+							System.out.println(natbag.showDeparturesFlightScheduled(day, "Day"));
+							break;
+						case 7:
+							System.out.println("Type the Airport");
+							String airport = scan.next();
+							System.out.println(natbag.showDeparturesFlightScheduled(airport, "Airport name"));
+							break;
+						}
+
 						break;
 
 					case 2:
-						System.out.println("Type the Flight Company");
-						String flightCompany = scan.next();
+						System.out.println("1. Search by Flight Number\n" + "2. Search by Flight Company\n"
+								+ "3. Search by Date\n" + "4. Search by Landing City\n" + "5. Search by Landing Country"
+								+ "6. Search by Day" + "7. Search by Airport name");
+						int answer2 = scan.nextInt();
+						switch (answer2) {
 
-						System.out.println(natbag.showDeparturesFlightScheduled(flightCompany, "companyFlight"));
-						break;
+						case 1:
+							System.out.println("Type the Flight number");
+							String flightNum = scan.next();
+							String numFlight = "numFlight";
+							System.out.println(natbag.showLandingFlightScheduled(flightNum, numFlight));
+							break;
 
-					case 3:
-						System.out.println("Time from: yyyy-MM-dd_HH:mm");
-						String timeFrom = scan.next();
-						DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
-						LocalDateTime scheduledTime3 = LocalDateTime.parse(timeFrom, formatter3);
+						case 2:
+							System.out.println("Type the Flight Company");
+							String flightCompany = scan.next();
+							String companyFlight = "companyFlight";
+							System.out.println(natbag.showLandingFlightScheduled(flightCompany, companyFlight));
+							break;
 
-						System.out.println("Time to: yyyy-MM-dd_HH:mm");
-						String timeTo = scan.next();
-						DateTimeFormatter formatter4 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
-						LocalDateTime scheduledTime4 = LocalDateTime.parse(timeTo, formatter4);
-						System.out.println(natbag.showDeparturesFlightScheduled(scheduledTime3, scheduledTime4));
-						break;
-					case 4:
-						System.out.println("Type the Destination City");
-						String dest = scan.next();
-						System.out.println(natbag.showDeparturesFlightScheduled(dest, "Destination City"));
-						break;
-					case 5:
-						System.out.println("Type the Destination Country");
-						dest = scan.next();
-						System.out.println(natbag.showDeparturesFlightScheduled(dest, "Destination Country"));
-						break;
-					case 6:
-						System.out.println("Type the Day");
-						day = scan.next();
-						System.out.println(natbag.showDeparturesFlightScheduled(day, "Day"));
-						break;
-					case 7:
-						System.out.println("Type the Airport");
-						String airport = scan.next();
-						System.out.println(natbag.showDeparturesFlightScheduled(airport, "Airport name"));
-						break;
-					}
+						case 3:
+							System.out.println("Time from: yyyy-MM-dd_HH:mm");
+							String timeFrom1 = scan.next();
+							DateTimeFormatter formatter5 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
+							LocalDateTime scheduledTime5 = LocalDateTime.parse(timeFrom1, formatter5);
 
-					break;
+							System.out.println("Time to: yyyy-MM-dd_HH:mm");
+							String timeTo1 = scan.next();
+							DateTimeFormatter formatter6 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
+							LocalDateTime scheduledTime6 = LocalDateTime.parse(timeTo1, formatter6);
+							System.out.println(natbag.showLandingFlightScheduled(scheduledTime5, scheduledTime6));
+							break;
+						case 4:
+							System.out.println("Type the Landing City");
+							String arrivalCity = scan.next();
 
-				case 2:
-					System.out.println("1. Search by Flight Number\n" + "2. Search by Flight Company\n"
-							+ "3. Search by Date\n" + "4. Search by Landing City\n" + "5. Search by Landing Country"
-							+ "6. Search by Day" + "7. Search by Airport name");
-					int answer2 = scan.nextInt();
-					switch (answer2) {
-
-					case 1:
-						System.out.println("Type the Flight number");
-						String flightNum = scan.next();
-						String numFlight = "numFlight";
-						System.out.println(natbag.showLandingFlightScheduled(flightNum, numFlight));
-						break;
-
-					case 2:
-						System.out.println("Type the Flight Company");
-						String flightCompany = scan.next();
-						String companyFlight = "companyFlight";
-						System.out.println(natbag.showLandingFlightScheduled(flightCompany, companyFlight));
+							System.out.println(natbag.showLandingFlightScheduled(arrivalCity, "Landing City"));
+							break;
+						case 5:
+							System.out.println("Type the Landing Country");
+							String arrivalCountry = scan.next();
+							System.out.println(natbag.showLandingFlightScheduled(arrivalCountry, "Landing Country"));
+							break;
+						case 6:
+							System.out.println("Type the Day");
+							day = scan.next();
+							System.out.println(natbag.showLandingFlightScheduled(day, "Day"));
+							break;
+						case 7:
+							System.out.println("Type the Airport");
+							String airport = scan.next();
+							System.out.println(natbag.showLandingFlightScheduled(airport, "Airport name"));
+							break;
+						}
 						break;
 
-					case 3:
-						System.out.println("Time from: yyyy-MM-dd_HH:mm");
-						String timeFrom1 = scan.next();
-						DateTimeFormatter formatter5 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
-						LocalDateTime scheduledTime5 = LocalDateTime.parse(timeFrom1, formatter5);
-
-						System.out.println("Time to: yyyy-MM-dd_HH:mm");
-						String timeTo1 = scan.next();
-						DateTimeFormatter formatter6 = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm");
-						LocalDateTime scheduledTime6 = LocalDateTime.parse(timeTo1, formatter6);
-						System.out.println(natbag.showLandingFlightScheduled(scheduledTime5, scheduledTime6));
-						break;
-					case 4:
-						System.out.println("Type the Landing City");
-						String arrivalCity = scan.next();
-
-						System.out.println(natbag.showLandingFlightScheduled(arrivalCity, "Landing City"));
-						break;
-					case 5:
-						System.out.println("Type the Landing Country");
-						String arrivalCountry = scan.next();
-						System.out.println(natbag.showDeparturesFlightScheduled(arrivalCountry, "Landing Country"));
-						break;
-					case 6:
-						System.out.println("Type the Day");
-						day = scan.next();
-						System.out.println(natbag.showDeparturesFlightScheduled(day, "Day"));
-						break;
-					case 7:
-						System.out.println("Type the Airport");
-						String airport = scan.next();
-						System.out.println(natbag.showDeparturesFlightScheduled(airport, "Airport name"));
+					default:
 						break;
 					}
 					break;
-
-				default:
-					break;
+				} catch (NoFLightsExeption e) {
+					System.out.println(e.getMessage());
 				}
-				break;
+				
 
 			case 8:
 				System.out.println("Bye");
 				again = false;
 				break;
 
-			case 9:
-				System.out.println(natbag.showDeparturesDataToWeb(args));
-				System.out.println(natbag.showLandingDataToWeb(args));
-				break;
 			}
 		}
 	}
@@ -288,7 +301,9 @@ public class Main {
 					System.out.println("<br>");
 					System.out.println(args[i]);
 				}else {
+					System.out.println();
 					System.out.println(args[i]+"\n");
+					
 				}
 			}
 			if(args[0].equals("html")) {
